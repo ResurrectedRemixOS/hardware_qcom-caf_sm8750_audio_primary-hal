@@ -881,7 +881,8 @@ bool Platform::setBluetoothParameters(const char* kvpairs) {
 
         param_bt_a2dp.dev_id = PAL_DEVICE_OUT_BLUETOOTH_A2DP;
 
-        param_bt_a2dp.is_in_call = (mCallMode != AUDIO_MODE_NORMAL);
+        param_bt_a2dp.is_in_call = ((mCallMode == AUDIO_MODE_IN_CALL) ||
+                        (mCallMode == AUDIO_MODE_IN_COMMUNICATION));
 
         LOG(VERBOSE) << __func__ << " BT A2DP Suspended = " << value;
         std::unique_lock<std::mutex> guard(AudioExtension::reconfig_wait_mutex_);
@@ -1116,7 +1117,8 @@ bool Platform::setBluetoothParameters(const char* kvpairs) {
 
         param_bt_a2dp.dev_id = PAL_DEVICE_IN_BLUETOOTH_A2DP;
 
-        param_bt_a2dp.is_in_call = (mCallMode != AUDIO_MODE_NORMAL);
+        param_bt_a2dp.is_in_call = ((mCallMode == AUDIO_MODE_IN_CALL) ||
+                        (mCallMode == AUDIO_MODE_IN_COMMUNICATION));
 
         LOG(VERBOSE) << __func__ << " BT A2DP Capture Suspended " << value << "command received";
         std::unique_lock<std::mutex> guard(AudioExtension::reconfig_wait_mutex_);
@@ -1136,7 +1138,8 @@ bool Platform::setBluetoothParameters(const char* kvpairs) {
             param_bt_a2dp.a2dp_capture_suspended = false;
         }
 
-        param_bt_a2dp.is_in_call = (mCallMode != AUDIO_MODE_NORMAL);
+        param_bt_a2dp.is_in_call = ((mCallMode == AUDIO_MODE_IN_CALL) ||
+                        (mCallMode == AUDIO_MODE_IN_COMMUNICATION));
 
         LOG(INFO) << __func__ << " BT LEA Suspended = ," << value << " command received";
         // Synchronize the suspend/resume calls from setparams and reconfig_cb
